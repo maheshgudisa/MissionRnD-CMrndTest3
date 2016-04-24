@@ -63,17 +63,63 @@ Helper Functions are optional to write
 */
 //Helper Functions Start
 int isOperator(char *data){
+	if (data[0] == '+' || data[0] == '*' || data[0] == '-')
+		return 1;
+	else
 	return 0;
 }
+/*
 int isOperand(char *data){
-	return 0;
+	int i = 0;
+	for (i = 0; data[i] != '\0'; i++){
+		if (data[i] - '0'<0|| data[i] - '0'>9)
+			return 0;
+	}
+	return 1;
 }
+*/
 int getOperand(char *data){
 	//converts data string to an integer "123" => 123
+	int dec=0,i;
+	if (data==NULL)
 	return 0;
+	else{
+		for (i = 0; data[i] != '\0'; i++){
+			dec = dec * 10 + (data[i] - '0');
+		}
+	}
+	return dec;
+}
+int calculate(int left, int right, char *Op){
+	if (Op[0] == '*'){
+		return left*right;
+	}
+	if (Op[0] == '+'){
+		return left + right;
+	}
+	if (Op[0] == '-'){
+		return left - right;
+	}
 }
 //Helper Functions end
 int solve_tree(struct enode *root){
-    return -1;
+	int sumleft = 0, sumright = 0,ans;
+	if (root == NULL)return -1;
+	else
+	{
+
+
+		if (isOperator(root->data)){
+
+			sumleft = solve_tree(root->left);
+			sumright = solve_tree(root->right);
+			ans = calculate(sumleft, sumright, root->data);
+		}
+		else
+		{
+			ans = getOperand(root->data);
+		}
+		return ans;
+	}
 }
 

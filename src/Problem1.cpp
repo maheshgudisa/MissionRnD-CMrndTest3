@@ -49,8 +49,27 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-
+void get_missing_value1(struct node *root, int *arr){
+	if (root!= NULL){
+		arr[root->data] = -1;
+		get_missing_value1(root->left, arr);
+		get_missing_value1(root->right, arr);
+	}
+}
 
 int get_missing_value(struct node *root,int n){
-    return -1;
+	int *arr,i=0,res;
+	if (root==NULL||n<=0)
+	return -1;
+	else{
+		arr = (int *)malloc(sizeof(int)*(n + 1));
+		for (i = 0; i <= n; i++){
+			arr[i] = i;
+		}
+		get_missing_value1(root, arr);
+		for (i = 0; i <= n; i++){
+			if (arr[i] != -1)
+				return arr[i];
+		}
+	}
 }
